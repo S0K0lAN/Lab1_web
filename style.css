@@ -1,0 +1,48 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #f0f0f0;
+}
+
+h1,
+h2 {
+    color: #ff8000;
+}
+
+a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+input,
+textarea {
+    border: 1px solid #ccc;
+    padding: 5px;
+}
+
+form p {
+    margin: 10px 0;
+}
+
+/* Убрать точки в списках на главной странице */
+ul {
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+}
+
+ul li {
+    padding-left: 0;
+    /* если нужно убрать отступ у пунктов */
+}
+
+/* Добавь свои стили сюда, например, для .footer { ... } */

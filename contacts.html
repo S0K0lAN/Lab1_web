@@ -1,0 +1,87 @@
+<!-- contacts.html -->
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Контакты - Пирамида</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Шапка сайта -->
+    <table border="0" width="900" cellpadding="0" cellspacing="0" align="center" bgcolor="#ff8000">
+        <tr>
+            <td width="150" align="center">
+                <img src="gym_icon.jpg" alt="Логотип Пирамида" width="80" height="80">
+            </td>
+            <td align="center">
+                <h1>ПИРАМИДА - ФИТНЕС-КЛУБ</h1>
+            </td>
+            <td width="200">
+                <table cellpadding="5" width="100%">
+                    <tr>
+                        <td align="right"><input type="text" placeholder="логин"></td>
+                    </tr>
+                    <tr>
+                        <td align="right"><input type="password" placeholder="пароль"></td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            <input type="submit" value="войти">&nbsp;<a href="register.html">регистрация</a>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Навигационное меню -->
+    <table border="0" width="900" cellpadding="5" cellspacing="0" align="center">
+        <tr>
+            <td align="center"><a href="main.html">Главная</a></td>
+            <td align="center"><a href="catalog.html">Каталог</a></td>
+            <td align="center"><a href="contacts.html">Контакты</a></td>
+            <td align="center"><a href="fitness.html">Фитнес</a></td>
+            <td align="right">
+                <input type="text" placeholder="поиск">&nbsp;<input type="button" value="искать">
+            </td>
+        </tr>
+    </table>
+    <br>
+
+    <!-- Основное содержимое -->
+    <table border="0" width="900" cellpadding="5" cellspacing="0" align="center">
+        <tr>
+            <td width="150" valign="top" align="center" bgcolor="#ff8000">
+                <!-- Боковое меню -->
+            </td>
+            <td valign="top">
+                <h1 align="center">Напишите нам</h1>
+                <form action="#" method="post">
+                    <p>Имя: <input type="text" name="name"></p>
+                    <p>Email: <input type="email" name="email"></p>
+                    <p>Тема: <input type="text" name="subject"></p>
+                    <p>Сообщение: <textarea name="message" rows="5" cols="30"></textarea></p>
+                    <p>Телефон: <input type="tel" name="phone"></p>
+                    <input type="submit" value="Отправить">
+                </form>
+                <h2>Адрес</h2>
+                <p>Телефон: +7 (495) 123-45-67</p>
+                <p>Адрес: ул. Пирамидная, 10, Москва</p>
+                <p>Email: info@pyramid-fitness.ru</p>
+                <!-- Карта Google -->
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2245.299!2d37.617!3d55.755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTXCsDQ1JzE2LjIiTiAzN8KwMzcnMDIuMyJF!5e0!3m2!1sru!2sru!4v1630000000000"
+                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </td>
+            <td width="190" valign="top" align="center" bgcolor="#ff8000">
+                <!-- Баннеры -->
+            </td>
+        </tr>
+    </table>
+
+    <!-- Подвал -->
+</body>
+
+</html>
