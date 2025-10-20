@@ -4,8 +4,10 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Фитнес-программа - Пирамида</title>
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -16,7 +18,7 @@
                 <img src="gym_icon.jpg" alt="Логотип Пирамида" width="80" height="80">
             </td>
             <td align="center">
-                <h1>ПИРАМИДА - ФИТНЕС-КЛУБ</h1>
+                <h1 class="site-name-header">ПИРАМИДА - ФИТНЕС-КЛУБ</h1>
             </td>
             <td width="200" bgcolor="#ebb134">
                 <table cellpadding="5" width="100%">
@@ -28,7 +30,7 @@
                     </tr>
                     <tr>
                         <td align="right">
-                            <input type="submit" value="войти">&nbsp;<a href="register.html">регистрация</a>
+                            <input type="submit" value="войти">&nbsp;<a href="register.html" class="btn btn-outline-light btn-sm">регистрация</a>
                         </td>
                     </tr>
                 </table>
@@ -37,12 +39,13 @@
     </table>
 
     <!-- Навигационное меню -->
-    <table border="0" width="900" cellpadding="5" cellspacing="0" align="center">
+    <table border="0" width="900" cellpadding="5" cellspacing="0" align="center" class="nav-menu">
         <tr>
             <td align="center"><a href="main.html">Главная</a></td>
             <td align="center"><a href="catalog.html">Каталог</a></td>
             <td align="center"><a href="contacts.html">Контакты</a></td>
             <td align="center"><a href="fitness.html">Фитнес</a></td>
+            <td align="center"><a href="search.html">Поиск</a></td>
         </tr>
     </table>
     <br>
@@ -50,28 +53,29 @@
     <!-- Основное содержимое -->
     <table border="0" width="900" cellpadding="5" cellspacing="0" align="center">
         <tr>
-            <td width="150" valign="top" align="center" bgcolor="#ff8000">
+            <td width="150" valign="top" align="center" class="sidebar-menu">
                 <ul>
-                    <li style="list-style: none;"><a href="main.html">Главная</a></li>
-                    <li style="list-style: none;"><a href="catalog.html">Каталог</a></li>
-                    <li style="list-style: none;"><a href="contacts.html">Контакты</a></li>
-                    <li style="list-style: none;"><a href="fitness.html">Фитнес</a></li>
+                    <li><a href="main.html">Главная</a></li>
+                    <li><a href="catalog.html">Каталог</a></li>
+                    <li><a href="contacts.html">Контакты</a></li>
+                    <li><a href="fitness.html">Фитнес</a></li>
+                    <li><a href="search.html">Поиск</a></li>
                 </ul>
             </td>
-            <td valign="top">
+            <td valign="top" id="fitnessContent">
                 <h1>Фитнес-программа</h1>
                 <a href="full_fitness.jpg" target="_blank"><img src="fitness_program.gif" alt="Фитнес" width="300"
-                        height="200"></a>
-                <h2>Описание услуги</h2>
-                <p>Индивидуальные фитнес-программы для похудения и набора мышечной массы.</p>
-                <h2>Характеристики услуги</h2>
-                <ul type="disc">
+                        height="200" class="product-image"></a>
+                <h2 class="product-title">Краткое описание товара</h2>
+                <p class="product-short-description">Индивидуальные фитнес-программы для похудения и набора мышечной массы.</p>
+                <h2 class="product-title">Характеристики</h2>
+                <ul class="characteristics-list">
                     <li>Длительность: 60 мин</li>
                     <li>Стоимость: 1500 руб/занятие</li>
                     <li>Тренер: Иван Петров</li>
                 </ul>
-                <h2>Подробное описание</h2>
-                <p>Программа включает кардио, силовые упражнения и стретчинг. <em>Подходит для начинающих и
+                <h2 class="product-title">Подробное описание</h2>
+                <p class="product-detailed-description">Программа включает кардио, силовые упражнения и стретчинг. <em>Подходит для начинающих и
                         продвинутых.</em></p>
                 <ol type="1">
                     <li>Разминка (10 мин)</li>
@@ -94,6 +98,11 @@
             <td align="center">&copy; 2025 Пирамида. Все права защищены.</td>
         </tr>
     </table>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JavaScript для фитнеса -->
+    <script src="search.js"></script>
 </body>
 
 </html>

@@ -4,8 +4,10 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Контакты - Пирамида</title>
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -16,7 +18,7 @@
                 <img src="gym_icon.jpg" alt="Логотип Пирамида" width="80" height="80">
             </td>
             <td align="center">
-                <h1>ПИРАМИДА - ФИТНЕС-КЛУБ</h1>
+                <h1 class="site-name-header">ПИРАМИДА - ФИТНЕС-КЛУБ</h1>
             </td>
             <td width="200" bgcolor="#ebb134">
                 <table cellpadding="5" width="100%">
@@ -28,7 +30,7 @@
                     </tr>
                     <tr>
                         <td align="right">
-                            <input type="submit" value="войти">&nbsp;<a href="register.html">регистрация</a>
+                            <input type="submit" value="войти">&nbsp;<a href="register.html" class="btn btn-outline-light btn-sm">регистрация</a>
                         </td>
                     </tr>
                 </table>
@@ -37,12 +39,13 @@
     </table>
 
     <!-- Навигационное меню -->
-    <table border="0" width="900" cellpadding="5" cellspacing="0" align="center">
+    <table border="0" width="900" cellpadding="5" cellspacing="0" align="center" class="nav-menu">
         <tr>
             <td align="center"><a href="main.html">Главная</a></td>
             <td align="center"><a href="catalog.html">Каталог</a></td>
             <td align="center"><a href="contacts.html">Контакты</a></td>
             <td align="center"><a href="fitness.html">Фитнес</a></td>
+            <td align="center"><a href="search.html">Поиск</a></td>
         </tr>
     </table>
     <br>
@@ -50,24 +53,42 @@
     <!-- Основное содержимое -->
     <table border="0" width="900" cellpadding="5" cellspacing="0" align="center">
         <tr>
-            <td width="150" valign="top" align="center" bgcolor="#ff8000">
+            <td width="150" valign="top" align="center" class="sidebar-menu">
                 <ul>
-                    <li style="list-style: none;"><a href="main.html">Главная</a></li>
-                    <li style="list-style: none;"><a href="catalog.html">Каталог</a></li>
-                    <li style="list-style: none;"><a href="contacts.html">Контакты</a></li>
-                    <li style="list-style: none;"><a href="fitness.html">Фитнес</a></li>
+                    <li><a href="main.html">Главная</a></li>
+                    <li><a href="catalog.html">Каталог</a></li>
+                    <li><a href="contacts.html">Контакты</a></li>
+                    <li><a href="fitness.html">Фитнес</a></li>
+                    <li><a href="search.html">Поиск</a></li>
                 </ul>
             </td>
             <td valign="top">
                 <h1 align="center">Напишите нам</h1>
-                <form action="#" method="post">
-                    <p>Имя: <input type="text" name="name"></p>
-                    <p>Email: <input type="email" name="email"></p>
-                    <p>Тема: <input type="text" name="subject"></p>
-                    <p>Сообщение: <textarea name="message" rows="5" cols="30"></textarea></p>
-                    <p>Телефон: <input type="tel" name="phone"></p>
-                    <input type="submit" value="Отправить">
-                </form>
+                <div class="form-container">
+                    <form action="#" method="post">
+                        <div class="form-group">
+                            <label for="name">Имя:</label>
+                            <input type="text" name="name" id="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" name="email" id="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Тема:</label>
+                            <input type="text" name="subject" id="subject">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Телефон:</label>
+                            <input type="tel" name="phone" id="phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Сообщение:</label>
+                            <textarea name="message" id="message" rows="5" cols="30"></textarea>
+                        </div>
+                        <input type="submit" value="Отправить">
+                    </form>
+                </div>
                 <h2>Адрес</h2>
                 <p>Телефон: +7 (495) 123-45-67</p>
                 <p>Адрес: ул. Пирамидная, 10, Москва</p>
@@ -92,8 +113,9 @@
             <td align="center">&copy; 2025 Пирамида. Все права защищены.</td>
         </tr>
     </table>
-
     
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
