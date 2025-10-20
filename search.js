@@ -1,228 +1,46 @@
-// search.js - JavaScript для поиска услуг фитнес-клуба "Пирамида"
+// search.js - JavaScript для поиска услуг фитнес-клуба "Пирамида" с подключением к MySQL
 
-// Многомерный массив с товарами и услугами
-const servicesCatalog = {
-    "Ф": [
-        {
-            name: "Фитнес-программа",
-            description: "Индивидуальные фитнес-программы для похудения и набора мышечной массы",
-            duration: "60 мин",
-            price: "1500 руб/занятие",
-            trainer: "Иван Петров",
-            image: "fitness_program.gif",
-            details: "Программа включает кардио, силовые упражнения и стретчинг. Подходит для начинающих и продвинутых.",
-            schedule: ["Разминка (10 мин)", "Основная тренировка (40 мин)", "Заминка (10 мин)"]
-        },
-        {
-            name: "Функциональная тренировка",
-            description: "Тренировка, направленная на развитие функциональных способностей организма",
-            duration: "60 мин",
-            price: "1200 руб/занятие",
-            trainer: "Мария Соколова",
-            image: "step.jpg",
-            details: "Улучшает координацию, баланс, силу и выносливость. Идеально для повседневной активности.",
-            schedule: ["Разминка (10 мин)", "Функциональные упражнения (35 мин)", "Растяжка (15 мин)"]
-        }
-    ],
-    "Й": [
-        {
-            name: "Йога",
-            description: "Древняя практика для гармонии тела и духа",
-            duration: "90 мин",
-            price: "1000 руб/занятие",
-            trainer: "Екатерина Волкова",
-            image: "thumb_yoga.jpg",
-            details: "Классическая хатха-йога для развития гибкости, силы и внутреннего спокойствия.",
-            schedule: ["Медитация (10 мин)", "Асаны (60 мин)", "Шавасана (20 мин)"]
-        },
-        {
-            name: "Йога для начинающих",
-            description: "Мягкое введение в мир йоги",
-            duration: "75 мин",
-            price: "800 руб/занятие",
-            trainer: "Анна Петрова",
-            image: "thumb_yoga.jpg",
-            details: "Базовые асаны и дыхательные техники для тех, кто только начинает заниматься йогой.",
-            schedule: ["Дыхательные упражнения (15 мин)", "Базовые асаны (45 мин)", "Релаксация (15 мин)"]
-        }
-    ],
-    "П": [
-        {
-            name: "Пилатес",
-            description: "Система упражнений для укрепления мышц кора",
-            duration: "60 мин",
-            price: "1100 руб/занятие",
-            trainer: "Ольга Морозова",
-            image: "step.jpg",
-            details: "Контролируемые движения для развития силы, гибкости и координации.",
-            schedule: ["Разминка (10 мин)", "Упражнения пилатес (40 мин)", "Растяжка (10 мин)"]
-        }
-        ,
-        {
-            name: "Персональная тренировка",
-            description: "Индивидуальная работа с тренером под ваши цели",
-            duration: "60 мин",
-            price: "2000 руб/занятие",
-            trainer: "Иван Петров",
-            image: "step.jpg",
-            details: "Персональный план, корректировка техники, быстрая обратная связь.",
-            schedule: ["Анализ целей (5 мин)", "Тренировка (50 мин)", "Рекомендации (5 мин)"]
-        }
-    ],
-    "Б": [
-        {
-            name: "Бокс",
-            description: "Боевое искусство для развития силы и выносливости",
-            duration: "60 мин",
-            price: "1300 руб/занятие",
-            trainer: "Сергей Козлов",
-            image: "step.jpg",
-            details: "Техника ударов, защита, работа с грушей и спарринг. Отлично снимает стресс.",
-            schedule: ["Разминка (10 мин)", "Техника ударов (30 мин)", "Спарринг (20 мин)"]
-        }
-    ],
-    "К": [
-        {
-            name: "Кардио-тренировка",
-            description: "Интенсивная тренировка для сжигания калорий",
-            duration: "45 мин",
-            price: "900 руб/занятие",
-            trainer: "Антон Смирнов",
-            image: "step.jpg",
-            details: "Высокоинтенсивные упражнения для улучшения работы сердечно-сосудистой системы.",
-            schedule: ["Разминка (5 мин)", "Кардио-блок (35 мин)", "Заминка (5 мин)"]
-        },
-        {
-            name: "Кроссфит",
-            description: "Функциональная тренировка высокой интенсивности",
-            duration: "60 мин",
-            price: "1400 руб/занятие",
-            trainer: "Дмитрий Иванов",
-            image: "step.jpg",
-            details: "Комплексные упражнения для развития всех физических качеств.",
-            schedule: ["Разминка (10 мин)", "WOD (40 мин)", "Растяжка (10 мин)"]
-        }
-        ,
-        {
-            name: "Круговая тренировка",
-            description: "Чередование станций для проработки всех групп мышц",
-            duration: "50 мин",
-            price: "1200 руб/занятие",
-            trainer: "Мария Соколова",
-            image: "step.jpg",
-            details: "Высокая интенсивность, короткие паузы отдыха, отличная жиросжигающая нагрузка.",
-            schedule: ["Разминка (10 мин)", "Станции (35 мин)", "Заминка (5 мин)"]
-        }
-    ],
-    "С": [
-        {
-            name: "Силовая тренировка",
-            description: "Тренировка с отягощениями для набора мышечной массы",
-            duration: "75 мин",
-            price: "1200 руб/занятие",
-            trainer: "Иван Петров",
-            image: "step.jpg",
-            details: "Работа со свободными весами и тренажерами для развития силы и массы.",
-            schedule: ["Разминка (10 мин)", "Силовые упражнения (55 мин)", "Растяжка (10 мин)"]
-        },
-        {
-            name: "Стретчинг",
-            description: "Растяжка для улучшения гибкости и расслабления",
-            duration: "45 мин",
-            price: "700 руб/занятие",
-            trainer: "Елена Белова",
-            image: "step.jpg",
-            details: "Статические и динамические упражнения на растяжку всех групп мышц.",
-            schedule: ["Разминка (5 мин)", "Растяжка (35 мин)", "Релаксация (5 мин)"]
-        }
-        ,
-        {
-            name: "Спиннинг",
-            description: "Интенсивные велотренировки под музыку на станке",
-            duration: "45 мин",
-            price: "900 руб/занятие",
-            trainer: "Алексей Романов",
-            image: "step.jpg",
-            details: "Имитируем подъемы, спуски и спринты. Отлично для выносливости.",
-            schedule: ["Разминка (5 мин)", "Интервалы (35 мин)", "Заминка (5 мин)"]
-        }
-    ],
-    "Т": [
-        {
-            name: "Танцы",
-            description: "Танцевальные направления для развития координации",
-            duration: "60 мин",
-            price: "1000 руб/занятие",
-            trainer: "Наталья Дмитриева",
-            image: "step.jpg",
-            details: "Латина, хип-хоп, джаз-фанк и другие современные танцевальные стили.",
-            schedule: ["Разминка (10 мин)", "Изучение движений (40 мин)", "Танец (10 мин)"]
-        }
-        ,
-        {
-            name: "TRX-петли",
-            description: "Функциональные упражнения с подвесными петлями",
-            duration: "60 мин",
-            price: "1300 руб/занятие",
-            trainer: "Дмитрий Иванов",
-            image: "step.jpg",
-            details: "Работа с собственным весом, развивает стабилизаторы и силу корпуса.",
-            schedule: ["Разминка (10 мин)", "Комплексы TRX (45 мин)", "Растяжка (5 мин)"]
-        }
-    ],
-    "А": [
-        {
-            name: "Аэробика",
-            description: "Ритмичные упражнения под музыку",
-            duration: "50 мин",
-            price: "800 руб/занятие",
-            trainer: "Светлана Козлова",
-            image: "step.jpg",
-            details: "Классическая аэробика для улучшения работы сердца и легких.",
-            schedule: ["Разминка (10 мин)", "Аэробная часть (30 мин)", "Заминка (10 мин)"]
-        }
-        ,
-        {
-            name: "Аквааэробика",
-            description: "Низкоударная тренировка в воде для всех уровней",
-            duration: "50 мин",
-            price: "1000 руб/занятие",
-            trainer: "Светлана Козлова",
-            image: "images.jpeg",
-            details: "Мягкая нагрузка на суставы, эффективное сжигание калорий, дренажный эффект.",
-            schedule: ["Разогрев (10 мин)", "Водные комплексы (35 мин)", "Релакс (5 мин)"]
-        }
-    ]
-    ,
-    "З": [
-        {
-            name: "Зумба",
-            description: "Танцевальная фитнес-программа под латинскую музыку",
-            duration: "55 мин",
-            price: "900 руб/занятие",
-            trainer: "Наталья Дмитриева",
-            image: "step.jpg",
-            details: "Весело, энергично и эффективно для жиросжигания.",
-            schedule: ["Разминка (10 мин)", "Танцевальные связки (40 мин)", "Заминка (5 мин)"]
-        }
-    ]
-    ,
-    "М": [
-        {
-            name: "Массаж спортивный",
-            description: "Восстановительный и тонусный массаж после нагрузок",
-            duration: "60 мин",
-            price: "1800 руб/сеанс",
-            trainer: "Сергей Козлов",
-            image: "images.jpeg",
-            details: "Снятие мышечного напряжения, улучшение кровообращения и восстановления.",
-            schedule: ["Диагностика (5 мин)", "Массаж (50 мин)", "Рекомендации (5 мин)"]
-        }
-    ]
-};
+// Глобальная переменная для хранения данных из базы
+let servicesCatalog = {};
+
+// Функция для загрузки всех услуг из базы данных
+async function loadAllServices() {
+    try {
+        const response = await fetch('/api/services');
+        const services = await response.json();
+        
+        // Группируем услуги по первой букве для совместимости со старым кодом
+        const groupedServices = {};
+        services.forEach(service => {
+            const firstLetter = service.name.charAt(0);
+            if (!groupedServices[firstLetter]) {
+                groupedServices[firstLetter] = [];
+            }
+            // Преобразуем данные из базы в формат, совместимый со старым кодом
+            groupedServices[firstLetter].push({
+                name: service.name,
+                description: service.description,
+                duration: service.duration,
+                price: service.price,
+                trainer: service.trainer_name || 'Не указан',
+                image: service.image_path,
+                details: service.details,
+                schedule: JSON.parse(service.schedule || '[]')
+            });
+        });
+        
+        servicesCatalog = groupedServices;
+        console.log('Данные загружены из базы данных:', servicesCatalog);
+        
+        return servicesCatalog;
+    } catch (error) {
+        console.error('Ошибка при загрузке услуг:', error);
+        return {};
+    }
+}
 
 // Функция для выполнения поиска
-function performSearch(event) {
+async function performSearch(event) {
     event.preventDefault(); // Предотвращаем стандартную отправку формы
     
     // Получаем значение из поля ввода
@@ -234,11 +52,29 @@ function performSearch(event) {
         return false;
     }
     
-    // Выполняем поиск
-    const results = searchServices(searchQuery);
+    try {
+        // Выполняем поиск через API
+        const response = await fetch(`/api/services/search/${searchQuery}`);
+        const results = await response.json();
+        
+        // Преобразуем результаты в формат, совместимый со старым кодом
+        const formattedResults = results.map(service => ({
+            name: service.name,
+            description: service.description,
+            duration: service.duration,
+            price: service.price,
+            trainer: service.trainer_name || 'Не указан',
+            image: service.image_path,
+            details: service.details,
+            schedule: JSON.parse(service.schedule || '[]')
+        }));
     
     // Отображаем результаты
-    displayResults(results, searchQuery);
+        displayResults(formattedResults, searchQuery);
+    } catch (error) {
+        console.error('Ошибка при поиске:', error);
+        showValidationError('Ошибка при загрузке данных');
+    }
     
     return false; // Предотвращаем отправку формы
 }
@@ -271,7 +107,7 @@ function validateSearchInput(query) {
     return true;
 }
 
-// Функция поиска услуг
+// Функция поиска услуг (теперь работает с загруженными данными)
 function searchServices(query) {
     return servicesCatalog[query] || [];
 }
@@ -400,26 +236,48 @@ function setupQuickSearch() {
 }
 
 // Функция быстрого поиска
-function quickSearch(letter) {
+async function quickSearch(letter) {
     document.getElementById('searchInput').value = letter;
-    const results = searchServices(letter);
-    displayResults(results, letter);
+    try {
+        const response = await fetch(`/api/services/search/${letter}`);
+        const results = await response.json();
+        
+        // Преобразуем результаты в формат, совместимый со старым кодом
+        const formattedResults = results.map(service => ({
+            name: service.name,
+            description: service.description,
+            duration: service.duration,
+            price: service.price,
+            trainer: service.trainer_name || 'Не указан',
+            image: service.image_path,
+            details: service.details,
+            schedule: JSON.parse(service.schedule || '[]')
+        }));
+        
+        displayResults(formattedResults, letter);
+    } catch (error) {
+        console.error('Ошибка при быстром поиске:', error);
+        showValidationError('Ошибка при загрузке данных');
+    }
 }
 
-// Функция для автоматического заполнения каталога
-function populateCatalog() {
+// Функция для автоматического заполнения каталога из базы данных
+async function populateCatalog() {
     const catalogContainer = document.getElementById('catalogServices');
     if (!catalogContainer) return;
     
+    try {
+        const response = await fetch('/api/services');
+        const services = await response.json();
+    
     let html = '';
     
-    // Проходим по всем категориям услуг
-    Object.keys(servicesCatalog).forEach(letter => {
-        servicesCatalog[letter].forEach(service => {
+        // Проходим по всем услугам
+        services.forEach(service => {
             html += `
                 <li class="catalog-item">
                     <a href="fitness.html" onclick="showServiceInFitness('${service.name}')">
-                        <img src="${service.image}" alt="${service.name}" width="100" height="80" style="object-fit: cover;">
+                        <img src="${service.image_path}" alt="${service.name}" width="100" height="80" style="object-fit: cover;">
                         <div class="service-info">
                             <h4>${service.name}</h4>
                             <p class="service-price">${service.price}</p>
@@ -428,7 +286,6 @@ function populateCatalog() {
                     </a>
                 </li>
             `;
-        });
     });
     
     // Добавляем ссылку на поиск
@@ -446,6 +303,9 @@ function populateCatalog() {
     `;
     
     catalogContainer.innerHTML = html;
+    } catch (error) {
+        console.error('Ошибка при загрузке каталога:', error);
+    }
 }
 
 // Функция для показа услуги на странице фитнеса
@@ -454,20 +314,40 @@ function showServiceInFitness(serviceName) {
     localStorage.setItem('selectedService', serviceName);
 }
 
-// Функция для получения информации об услуге по названию
-function getServiceByName(serviceName) {
-    for (let letter in servicesCatalog) {
-        const service = servicesCatalog[letter].find(s => s.name === serviceName);
-        if (service) return service;
+// Функция для получения информации об услуге по названию из базы данных
+async function getServiceByName(serviceName) {
+    try {
+        const response = await fetch('/api/services');
+        const services = await response.json();
+        const service = services.find(s => s.name === serviceName);
+        
+        if (service) {
+            return {
+                name: service.name,
+                description: service.description,
+                duration: service.duration,
+                price: service.price,
+                trainer: service.trainer_name || 'Не указан',
+                image: service.image_path,
+                details: service.details,
+                schedule: JSON.parse(service.schedule || '[]')
+            };
     }
     return null;
+    } catch (error) {
+        console.error('Ошибка при получении услуги:', error);
+        return null;
+    }
 }
 
 // Инициализация при загрузке страницы
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+    // Загружаем данные из базы данных
+    await loadAllServices();
+    
     // Проверяем, находимся ли мы на странице каталога
     if (document.getElementById('catalogServices')) {
-        populateCatalog();
+        await populateCatalog();
     }
     
     // Проверяем, находимся ли мы на странице поиска
@@ -484,11 +364,29 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // Добавляем обработчик для поиска при вводе одной буквы
-        searchInput.addEventListener('input', function() {
+        searchInput.addEventListener('input', async function() {
             const value = this.value.trim().toUpperCase();
             if (value.length === 1 && /^[А-ЯЁ]$/.test(value)) {
-                const results = searchServices(value);
-                displayResults(results, value);
+                try {
+                    const response = await fetch(`/api/services/search/${value}`);
+                    const results = await response.json();
+                    
+                    // Преобразуем результаты в формат, совместимый со старым кодом
+                    const formattedResults = results.map(service => ({
+                        name: service.name,
+                        description: service.description,
+                        duration: service.duration,
+                        price: service.price,
+                        trainer: service.trainer_name || 'Не указан',
+                        image: service.image_path,
+                        details: service.details,
+                        schedule: JSON.parse(service.schedule || '[]')
+                    }));
+                    
+                    displayResults(formattedResults, value);
+                } catch (error) {
+                    console.error('Ошибка при поиске:', error);
+                }
             }
         });
     }
@@ -497,15 +395,15 @@ document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('fitnessContent')) {
         const selectedService = localStorage.getItem('selectedService');
         if (selectedService) {
-            updateFitnessPage(selectedService);
+            await updateFitnessPage(selectedService);
             localStorage.removeItem('selectedService'); // Очищаем после использования
         }
     }
 });
 
 // Функция для обновления страницы фитнеса с выбранной услугой
-function updateFitnessPage(serviceName) {
-    const service = getServiceByName(serviceName);
+async function updateFitnessPage(serviceName) {
+    const service = await getServiceByName(serviceName);
     if (!service) return;
     
     const fitnessContent = document.getElementById('fitnessContent');
