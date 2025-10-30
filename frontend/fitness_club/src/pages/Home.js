@@ -1,12 +1,14 @@
 // src/pages/Home.js
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
+import { AuthContext } from '../AuthContext';
 
 function Home() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const { login } = useContext(AuthContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -16,7 +18,11 @@ function Home() {
     try {
       const res = await axios.post('http://localhost:5000/api/login', { username, password });
       if (res.data.success) {
-        alert('Вход успешен! Добро пожаловать, ' + username + '!');
+        // сохранить пользователя в контексте — теперь navbar поменяется
+        login({ username: res.data.user.username || username });
+        // можно очистить форму
+        setUsername('');
+        setPassword('');
       }
     } catch (err) {
       setError(err.response?.data?.error || 'Ошибка входа');
