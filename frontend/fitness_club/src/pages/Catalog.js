@@ -1,8 +1,10 @@
 // src/pages/Catalog.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import { AuthContext } from '../AuthContext';
 
 function Catalog() {
+  const { user } = useContext(AuthContext);
   const [categories, setCategories] = useState([]);
   const [items, setItems] = useState([]);
   const [search, setSearch] = useState('');
@@ -12,7 +14,6 @@ function Catalog() {
   const [rating, setRating] = useState(5);
   const [consent, setConsent] = useState(false);
   const [reviews, setReviews] = useState([]);
-  const [currentUserId] = useState(1);
 
   useEffect(() => {
     axios.get('http://localhost:5000/api/categories').then(res => setCategories(res.data));
@@ -32,12 +33,13 @@ function Catalog() {
 
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
+    if (!user) return alert('Только авторизованные пользователи могут оставлять отзывы');
     if (!consent) return alert('Необходимо согласие на обработку данных');
     if (!reviewText.trim()) return alert('Напишите отзыв');
 
     try {
       await axios.post('http://localhost:5000/api/reviews', {
-        userId: currentUserId,
+        userId: user.id,
         productServiceId: selectedItem.id,
         text: reviewText,
         rating,
@@ -46,10 +48,9 @@ function Catalog() {
       alert('Отзыв опубликован');
       setReviewText('');
       setConsent(false);
-      // обновляем список отзывов сразу
       fetchReviews(selectedItem.id);
     } catch (err) {
-      alert('Ошибка отправки отзыва');
+      alert(err.response?.data?.error || 'Ошибка отправки отзыва');
     }
   };
 
@@ -146,36 +147,45 @@ function Catalog() {
                 </div>
               )}
 
-              <form onSubmit={handleReviewSubmit} className="review-form">
-                <h4>Оставить отзыв</h4>
-                <textarea
-                  placeholder="Поделитесь впечатлениями..."
-                  value={reviewText}
-                  onChange={(e) => setReviewText(e.target.value)}
-                  required
-                />
-                <div className="form-row">
-                  <select value={rating} onChange={(e) => setRating(Number(e.target.value))}>
-                    {[1, 2, 3, 4, 5].map(n => (
-                      <option key={n} value={n}>{n} Star{n > 1 ? 's' : ''}</option>
-                    ))}
-                  </select>
-                  <label className="checkbox-label">
-                    <input
-                      type="checkbox"
-                      checked={consent}
-                      onChange={(e) => setConsent(e.target.checked)}
-                      required
-                    />
-                    <span className="custom-checkbox"></span>
-                    Согласие на обработку данных
-                  </label>
+              {user ? (
+                <form onSubmit={handleReviewSubmit} className="review-form">
+                  <h4>Оставить отзыв</h4>
+                  <textarea
+                    placeholder="Поделитесь впечатлениями..."
+                    value={reviewText}
+                    onChange={(e) => setReviewText(e.target.value)}
+                    required
+                  />
+                  <div className="form-row">
+                    <select value={rating} onChange={(e) => setRating(Number(e.target.value))}>
+                      {[1, 2, 3, 4, 5].map(n => (
+                        <option key={n} value={n}>{n} Star{n > 1 ? 's' : ''}</option>
+                      ))}
+                    </select>
+                    <label className="checkbox-label">
+                      <input
+                        type="checkbox"
+                        checked={consent}
+                        onChange={(e) => setConsent(e.target.checked)}
+                        required
+                      />
+                      <span className="custom-checkbox"></span>
+                      Согласие на обработку данных
+                    </label>
+                  </div>
+                  <button type="submit" className="submit-review-btn">
+                    Отправить отзыв
+                  </button>
+                  <p className="review-note">Спасибо за отзыв — он опубликован</p>
+                </form>
+              ) : (
+                <div className="no-reviews">
+                  Только авторизованные пользователи могут оставлять отзывы.
+                  <div style={{ marginTop: 12 }}>
+                    <a href="/" className="nav-login-btn">Войти</a>
+                  </div>
                 </div>
-                <button type="submit" className="submit-review-btn">
-                  Отправить отзыв
-                </button>
-                <p className="review-note">Спасибо за отзыв — он опубликован</p>
-              </form>
+              )}
             </div>
           </div>
         )}

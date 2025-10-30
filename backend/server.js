@@ -73,9 +73,33 @@ app.get('/api/reviews/:productServiceId', async (req, res) => {
   }
 });
 
+app.post('/api/login', async (req, res) => {
+  const { username, password } = req.body;
+  try {
+    const result = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
+    if (result.rows.length === 0) return res.status(400).json({ error: 'Неверный логин или пароль' });
+
+    const user = result.rows[0];
+    const match = await bcrypt.compare(password, user.password_hash);
+    if (!match) return res.status(400).json({ error: 'Неверный логин или пароль' });
+
+    // возвращаем id и username
+    res.json({ success: true, user: { id: user.id, username: user.username } });
+  } catch (err) {
+    res.status(500).json({ error: 'Ошибка входа' });
+  }
+});
+
 app.post('/api/reviews', async (req, res) => {
   const { userId, productServiceId, text, rating, consent } = req.body;
+
+  if (!userId) return res.status(401).json({ error: 'Требуется авторизация' });
+
   try {
+    // проверим, что пользователь существует
+    const u = await pool.query('SELECT id FROM users WHERE id = $1', [userId]);
+    if (u.rows.length === 0) return res.status(401).json({ error: 'Пользователь не найден' });
+
     await pool.query(
       'INSERT INTO reviews (user_id, product_service_id, text, rating, consent, moderated) VALUES ($1, $2, $3, $4, $5, true)',
       [userId, productServiceId, text, rating, consent]
@@ -101,22 +125,6 @@ app.post('/api/register', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Пользователь уже существует или ошибка сервера' });
-  }
-});
-
-app.post('/api/login', async (req, res) => {
-  const { username, password } = req.body;
-  try {
-    const result = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
-    if (result.rows.length === 0) return res.status(400).json({ error: 'Неверный логин или пароль' });
-
-    const user = result.rows[0];
-    const match = await bcrypt.compare(password, user.password_hash);
-    if (!match) return res.status(400).json({ error: 'Неверный логин или пароль' });
-
-    res.json({ success: true, user: { username: user.username } });
-  } catch (err) {
-    res.status(500).json({ error: 'Ошибка входа' });
   }
 });
 

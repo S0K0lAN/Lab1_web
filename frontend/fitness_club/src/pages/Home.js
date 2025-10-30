@@ -18,9 +18,8 @@ function Home() {
     try {
       const res = await axios.post('http://localhost:5000/api/login', { username, password });
       if (res.data.success) {
-        // сохранить пользователя в контексте — теперь navbar поменяется
-        login({ username: res.data.user.username || username });
-        // можно очистить форму
+        // сохранить пользователя (id и username) в контексте
+        login(res.data.user);
         setUsername('');
         setPassword('');
       }
