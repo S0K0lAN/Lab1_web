@@ -14,7 +14,7 @@ CREATE TABLE products_services (
     name VARCHAR(100) NOT NULL,
     description TEXT,
     price DECIMAL(10, 2) NOT NULL,
-    category_id INTEGER REFERENCES categories(id),
+    category_id INTEGER REFERENCESОтзывы проходят модерацию categories(id),
     type VARCHAR(20) CHECK (type IN ('product', 'service')) NOT NULL
 );
 

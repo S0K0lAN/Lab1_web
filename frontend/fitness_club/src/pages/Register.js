@@ -7,6 +7,7 @@ function Register() {
     username: '',
     password: '',
     email: '',
+    phone: '',         // добавлено
     consent: false
   });
   const [error, setError] = useState('');
@@ -31,7 +32,7 @@ function Register() {
     try {
       await axios.post('http://localhost:5000/api/register', formData);
       alert('Регистрация успешна!');
-      setFormData({ username: '', password: '', email: '', consent: false });
+      setFormData({ username: '', password: '', email: '', phone: '', consent: false });
     } catch (err) {
       setError(err.response?.data?.error || 'Ошибка сервера');
     }
@@ -74,6 +75,18 @@ function Register() {
             </div>
 
             <div className="form-group">
+              <label htmlFor="phone">Телефон</label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder="+7 (900) 000-00-00"
+              />
+            </div>
+
+            <div className="form-group">
               <label htmlFor="password">Пароль</label>
               <input
                 type="password"
@@ -97,7 +110,7 @@ function Register() {
                   required
                 />
                 <span className="custom-checkbox"></span>
-                Я согласен с <a href="/privacy" target="_blank">обработкой персональных данных</a>
+                Я согласен с <a href="/privacy" target="_blank" rel="noreferrer">обработкой персональных данных</a>
               </label>
             </div>
 

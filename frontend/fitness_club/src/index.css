@@ -123,11 +123,11 @@ input:focus, textarea:focus, select:focus {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background-image: url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=1600')  ;
 }
 
 .hero-section {
-  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)), 
-              url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=1600') center/cover no-repeat;
+  background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8));
   padding: 6rem 0 4rem;
   text-align: center;
   color: white;
@@ -350,6 +350,7 @@ input:focus, textarea:focus, select:focus {
 }
 
 .custom-checkbox {
+  display: inline-block;
   width: 20px;
   height: 20px;
   border: 2px solid #444;
@@ -367,7 +368,7 @@ input:focus, textarea:focus, select:focus {
 }
 
 .custom-checkbox::after {
-  content: 'Check';
+  content: '✓';
   position: absolute;
   top: 50%;
   left: 50%;
@@ -480,6 +481,10 @@ input:focus, textarea:focus, select:focus {
   color: #888;
   font-size: 0.9rem;
   font-style: italic;
+  background-image: url("../public/card_img.png");
+  background-repeat: no-repeat;
+  background-position:top center;
+  background-size: cover;
 }
 
 .card-content {
@@ -769,7 +774,7 @@ input:focus, textarea:focus, select:focus {
 .footer {
   background: #111;
   padding: 2rem 0;
-  margin-top: 4rem;
+  
   font-size: 0.9rem;
   text-align: center;
 }

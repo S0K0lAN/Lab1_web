@@ -15,7 +15,7 @@ const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
   database: 'fitness_club_db',
-  password: '1234567890', // ← Замени на свой
+  password: '1234567890',
   port: 5432,
 });
 
@@ -62,7 +62,7 @@ app.get('/api/reviews/:productServiceId', async (req, res) => {
       `SELECT r.*, u.username 
        FROM reviews r 
        JOIN users u ON r.user_id = u.id 
-       WHERE r.product_service_id = $1 AND r.moderated = true 
+       WHERE r.product_service_id = $1
        ORDER BY r.created_at DESC`,
       [productServiceId]
     );
@@ -77,28 +77,30 @@ app.post('/api/reviews', async (req, res) => {
   const { userId, productServiceId, text, rating, consent } = req.body;
   try {
     await pool.query(
-      'INSERT INTO reviews (user_id, product_service_id, text, rating, consent, moderated) VALUES ($1, $2, $3, $4, $5, false)',
+      'INSERT INTO reviews (user_id, product_service_id, text, rating, consent, moderated) VALUES ($1, $2, $3, $4, $5, true)',
       [userId, productServiceId, text, rating, consent]
     );
     res.json({ success: true });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: 'Ошибка отправки отзыва' });
   }
 });
 
 app.post('/api/register', async (req, res) => {
-  const { username, password, email, consent } = req.body;
+  const { username, password, email, phone, consent } = req.body;
   if (!consent) return res.status(400).json({ error: 'Согласие обязательно' });
 
   try {
     const hash = await bcrypt.hash(password, 10);
     await pool.query(
-      'INSERT INTO users (username, password_hash, email, consent) VALUES ($1, $2, $3, $4)',
-      [username, hash, email, consent]
+      'INSERT INTO users (username, password_hash, email, consent, phone) VALUES ($1, $2, $3, $4, $5)',
+      [username, hash, email, consent, phone]
     );
     res.json({ success: true });
   } catch (err) {
-    res.status(500).json({ error: 'Пользователь уже существует' });
+    console.error(err);
+    res.status(500).json({ error: 'Пользователь уже существует или ошибка сервера' });
   }
 });
 

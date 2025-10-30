@@ -43,9 +43,11 @@ function Catalog() {
         rating,
         consent
       });
-      alert('Отзыв отправлен на модерацию');
+      alert('Отзыв опубликован');
       setReviewText('');
       setConsent(false);
+      // обновляем список отзывов сразу
+      fetchReviews(selectedItem.id);
     } catch (err) {
       alert('Ошибка отправки отзыва');
     }
@@ -89,9 +91,7 @@ function Catalog() {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
             >
-              <div className="card-image">
-                <div className="placeholder">Фото</div>
-              </div>
+              <div className="card-image"></div>
               <div className="card-content">
                 <h3>{item.name}</h3>
                 <p>{item.description}</p>
@@ -135,7 +135,7 @@ function Catalog() {
                               key={i}
                               className={`star ${i < review.rating ? 'filled' : ''}`}
                             >
-                              Star
+                              ⭑
                             </span>
                           ))}
                         </div>
@@ -174,7 +174,7 @@ function Catalog() {
                 <button type="submit" className="submit-review-btn">
                   Отправить отзыв
                 </button>
-                <p className="review-note">Отзывы проходят модерацию</p>
+                <p className="review-note">Спасибо за отзыв — он опубликован</p>
               </form>
             </div>
           </div>
